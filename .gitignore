@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+env/
+venv/
+
+# Data and models
+data/*.csv
+models/*.pkl
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# VSCode
+.vscode/
