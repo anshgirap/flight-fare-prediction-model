@@ -65,8 +65,6 @@ Python, Pandas, NumPy
 
 Scikit-learn, Joblib
 
-Matplotlib / Seaborn (for notebooks)
-
 ## 📜 License
 
 This project is licensed under the MIT License.
