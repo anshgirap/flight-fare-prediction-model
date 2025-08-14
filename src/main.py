@@ -1,26 +1,36 @@
-from preprocessing import load_data, build_preprocessor
-from model import train_model
-from pathlib import Path
+import os
+import pandas as pd
 import joblib
+from preprocessing import preprocess_data
+from model import train_model
 
-# Ensure models folder exists
-models_dir = Path(__file__).resolve().parent.parent / "models"
-models_dir.mkdir(parents=True, exist_ok=True)
+# Paths
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA_PATH = os.path.join(BASE_DIR, "../data/airlines_flights_data.csv")
+MODEL_DIR = os.path.join(BASE_DIR, "../models")
+MODEL_PATH = os.path.join(MODEL_DIR, "flight_fare_model.pkl")
+PREPROCESSOR_PATH = os.path.join(MODEL_DIR, "preprocessor.pkl")
 
-# Load and preprocess
-df = load_data()
-preprocessor = build_preprocessor(df)
+# Ensure models directory exists
+os.makedirs(MODEL_DIR, exist_ok=True)
 
-X = df.drop(columns=["fare"])
-y = df["fare"]
+# Load Dataset
+print(f"[INFO] Loading dataset from: {DATA_PATH}")
+df = pd.read_csv(DATA_PATH)
+print(f"[INFO] Dataset loaded. Shape: {df.shape}")
 
-print("[INFO] Transforming data...")
-X_processed = preprocessor.fit_transform(X)
+# Preprocess Data
+print("[INFO] Preprocessing data...")
+X, y, preprocessor = preprocess_data(df)
+print(f"[INFO] Data preprocessing complete. Shape: {X.shape}")
 
-# Train
-model = train_model(X_processed, y)
+# Train Model
+print("[INFO] Training model...")
+model = train_model(X, y, preprocessor)
+print("[INFO] Model training complete.")
 
-# Save model
-model_path = models_dir / "flight_fare_model.pkl"
-joblib.dump(model, model_path)
-print(f"[INFO] Model saved to: {model_path}")
+# Save Artifacts
+joblib.dump(model, MODEL_PATH)
+joblib.dump(preprocessor, PREPROCESSOR_PATH)
+print(f"[INFO] Model saved to: {MODEL_PATH}")
+print(f"[INFO] Preprocessor saved to: {PREPROCESSOR_PATH}")

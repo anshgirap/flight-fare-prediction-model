@@ -1,13 +1,10 @@
 import pandas as pd
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
-from pathlib import Path
 
 def load_data():
-    csv_path = Path(__file__).resolve().parent.parent / "data" / "airlines_flights_data.csv"
-    print(f"[INFO] Loading dataset from: {csv_path}")
+    csv_path = "../data/airlines_flights_data.csv"
     df = pd.read_csv(csv_path)
-    print(f"[INFO] Dataset loaded. Shape: {df.shape}")
     return df
 
 def build_preprocessor(df):
@@ -21,3 +18,10 @@ def build_preprocessor(df):
         ]
     )
     return preprocessor
+
+def preprocess_data(df):
+    preprocessor = build_preprocessor(df)
+    X = df.drop(columns=["fare"])
+    y = df["fare"]
+    X_processed = preprocessor.fit_transform(X)
+    return X_processed, y, preprocessor
