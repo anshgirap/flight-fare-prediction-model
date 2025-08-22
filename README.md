@@ -79,10 +79,10 @@ print(f"Predicted Fare: ₹{fare:.2f}")
 
 ## 📈 Model Performance
 
-| Metric | Score    |
-| ------ | -------- |
-| MAE    | ₹1702.52 |
-| R²     | 0.979    |
+| Metric | Score   |
+| ------ | ------- |
+| MAE    | 1702.52 |
+| R²     | 0.979   |
 
 ---
 
